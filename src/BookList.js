@@ -4,7 +4,6 @@ import Header from './Header'
 
 export default function BookList({ books, newShelf }){
   const bookClass =[{ type: "currentlyReading", name: "Currently Reading" },{ type: "wantToRead", name: "Want to Read" },{ type: "read", name: "Read" }];
-
   return (
      <>
      <Header/>

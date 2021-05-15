@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import New from "./NewShelf";
+import NoImage from './images/no-cover-image.png';
 
 class SearchPage extends Component {
   constructor(props){  
@@ -17,8 +18,12 @@ class SearchPage extends Component {
     console.log(input)
     this.setState({ input });
     if (input) {
-      BooksAPI.search(input, 15).then((books) => {
-        if (books.length > 0) this.setState({ Arr: books });
+      BooksAPI.search(input.trim(), 15).then((books) => {
+        if (books.length > 0){
+          this.setState({ Arr: books })
+        }else{
+          this.setState({ Arr:[] })
+        }
       });
     } else this.setState({ Arr: [] });
   };
@@ -54,9 +59,7 @@ class SearchPage extends Component {
                         <div
                           className="book-cover"
                           style={{
-                            backgroundImage: `url(${
-                              book.imageLinks.thumbnail
-                            })`,
+                            backgroundImage: `url(${book.imageLinks && book.imageLinks.thumbnail ? book.imageLinks.thumbnail : NoImage})`,
                           }}
                         />
                         <New
@@ -77,6 +80,9 @@ class SearchPage extends Component {
                 ))}
               </ol>
             </div>
+          )}
+          {input && (
+            <h3>Search did not return any books. Please try again!</h3>
           )}
         </div>
       </div>
